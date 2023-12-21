@@ -1,0 +1,112 @@
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#########
+apiVersion: v1
+kind: ConfigMap
+metadata: # kpt-merge: /setters
+  name: setters
+  annotations:
+    config.kubernetes.io/local-config: "true"
+    internal.kpt.dev/upstream-identifier: '|ConfigMap|default|setters'
+data:
+  ##########################
+  # Instructions
+  ##########################
+  #
+  # Follow instructions specific to each section.
+  # Project IDs must follow the rules below, additionally,
+  # if a gatekeeper policy is used to enforce specific naming conventions, refer to its documentation.
+  #   - All IDs should be universally unique.
+  #   - Must be 6 to 30 characters in length.
+  #   - Can only contain lowercase letters, numbers, and hyphens.
+  #   - Must start with a letter.
+  #   - Cannot end with a hyphen.
+  #   - Cannot be in use or previously used; this includes deleted projects.
+  #   - Cannot contain restricted strings, such as google and ssl.
+  #
+  ##########################
+  # General Settings Values
+  ##########################
+  #
+  # Use the same Google Cloud Organization ID that was used when deploying the core-landing-zone package
+  # customization: required
+  org-id: "54422563716"
+  #
+  ##########################
+  # Management Project
+  ##########################
+  #
+  # The management project is where the Landing Zone config controller instance is running.
+  # management-project-id is the same value as defined in the core-landing-zone package
+  # customization: required
+  management-project-id: single-kcc-yjs10
+  #
+  # management-project-number is the same value as defined in the core-landing-zone package
+  # customization: required
+  management-project-number: "298273804134"
+  #
+  # kubernetes namespace set to the default, config-control.
+  # customization: Do not change this value.
+  management-namespace: config-control
+  #
+  ##########################
+  # Client
+  ##########################
+  #
+  # Name for the client, lowercase only.
+  # customization: required
+  client-name: 'yoppworks'
+  #
+  # Client's Billing Account ID to associate with the client's management project. The projects-sa will need billing user role permission granted.
+  # alternatively, because the client management project contains very limited resources, it could be set to the core-landing-zone billing id (the projects-sa should already have permissions set during initial post deployment configurations)
+  # customization: required
+  client-billing-id: "01BDB6-B76EC0-AD2596"
+  #
+  # project id for the client management project to be created, following rules and conventions
+  # customization: required
+  client-management-project-id: yp-client-mgmt-project-yjs10
+  #
+  ##########################
+  # Config Sync
+  ##########################
+  #
+  # Used for the client root sync external git repo (GitHub, Azure DevOps, etc.)
+  # The repo stores client packages configs, i.e., one 'client-landing-zone', one/many 'client-project-setup', etc.
+  # To disable this option, delete the 'root-sync-git/' directory
+  #
+  # the git repo URL, for example
+  # https://github.com/GITHUB-ORG/REPO-NAME
+  # https://AZDO-ORG@dev.azure.com/AZDO-ORG/AZDO-PROJECT/_git/REPO-NAME
+  # customization: required
+  repo-url: https://github.com/jacyang2010/single-kcc-clz-yjs10-yoppworks.git
+  #
+  # the branch to check out (usually main)
+  # customization: optional
+  repo-branch: main
+  #
+  # the directory to observe for YAML manifests
+  # customization: optional
+  repo-dir: csync/deploy/dev
+  #
+  ##########################
+  # DNS
+  ##########################
+  #
+  # dns project id created during core-landing-zone package deployment
+  # customization: required, obtain value from the core-landing-zone setters.yaml
+  dns-project-id: dns-project-yjs10
+  #
+  ##########################
+  # End of Configurations
+  ##########################
