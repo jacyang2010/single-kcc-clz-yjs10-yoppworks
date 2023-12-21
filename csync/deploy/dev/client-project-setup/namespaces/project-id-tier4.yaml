@@ -1,0 +1,175 @@
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#########
+# GCP Service Account for tier4
+# AC-3(7), AC-3, AC-16(2) - This service account possesses limited privileges(permissions) and is restricted to performing only the necessary operations for resources within the designated namespace. The service account is associated with the namespace and is assigned roles as required.
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMServiceAccount
+metadata: # kpt-merge: client-name-config-control/project-id-tier4-sa
+  name: client-project-yjs10-tier4-sa # kpt-set: ${project-id}-tier4-sa
+  namespace: yoppworks-config-control # kpt-set: ${client-name}-${management-namespace}
+  annotations:
+    cnrm.cloud.google.com/project-id: client-project-yjs10 # kpt-set: ${project-id}
+    cnrm.cloud.google.com/ignore-clusterless: "true"
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    internal.kpt.dev/upstream-identifier: 'iam.cnrm.cloud.google.com|IAMServiceAccount|client-name-config-control|project-id-tier4-sa'
+    cnrm.cloud.google.com/blueprint: 'kpt-pkg-fn'
+spec:
+  resourceID: tier4-sa
+  displayName: tier4-sa
+---
+# Grant GCP role Network User to GCP SA on nane1 subnet
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata: # kpt-merge: client-name-networking/project-id-tier4-sa-networkuser-allowed-nane1-main-subnet-permissions
+  name: client-project-yjs10-tier4-sa-networkuser-net-host-project-yjs10-nane1-standard-nonp-main-snet-permissions # kpt-set: ${project-id}-tier4-sa-networkuser-${allowed-nane1-main-subnet}-permissions
+  namespace: yoppworks-networking # kpt-set: ${client-name}-networking
+  annotations:
+    cnrm.cloud.google.com/ignore-clusterless: "true"
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    internal.kpt.dev/upstream-identifier: 'iam.cnrm.cloud.google.com|IAMPolicyMember|client-name-networking|project-id-tier4-sa-networkuser-allowed-nane1-main-subnet-permissions'
+    cnrm.cloud.google.com/blueprint: 'kpt-pkg-fn'
+spec:
+  resourceRef:
+    apiVersion: compute.cnrm.cloud.google.com/v1beta1
+    kind: ComputeSubnetwork
+    name: net-host-project-yjs10-nane1-standard-nonp-main-snet # kpt-set: ${allowed-nane1-main-subnet}
+  # AC-3(7), AC-3, AC-16(2)
+  role: roles/compute.networkUser
+  member: "serviceAccount:tier4-sa@client-project-yjs10.iam.gserviceaccount.com" # kpt-set: serviceAccount:tier4-sa@${project-id}.iam.gserviceaccount.com
+---
+# Grant GCP role Network User to GCP SA on nane2 subnet
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPolicyMember
+metadata: # kpt-merge: client-name-networking/project-id-tier4-sa-networkuser-allowed-nane2-main-subnet-permissions
+  name: client-project-yjs10-tier4-sa-networkuser-net-host-project-yjs10-nane2-standard-nonp-main-snet-permissions # kpt-set: ${project-id}-tier4-sa-networkuser-${allowed-nane2-main-subnet}-permissions
+  namespace: yoppworks-networking # kpt-set: ${client-name}-networking
+  annotations:
+    cnrm.cloud.google.com/ignore-clusterless: "true"
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    internal.kpt.dev/upstream-identifier: 'iam.cnrm.cloud.google.com|IAMPolicyMember|client-name-networking|project-id-tier4-sa-networkuser-allowed-nane2-main-subnet-permissions'
+    cnrm.cloud.google.com/blueprint: 'kpt-pkg-fn'
+spec:
+  resourceRef:
+    apiVersion: compute.cnrm.cloud.google.com/v1beta1
+    kind: ComputeSubnetwork
+    name: net-host-project-yjs10-nane2-standard-nonp-main-snet # kpt-set: ${allowed-nane2-main-subnet}
+  # AC-3(7), AC-3, AC-16(2)
+  role: roles/compute.networkUser
+  member: "serviceAccount:tier4-sa@client-project-yjs10.iam.gserviceaccount.com" # kpt-set: serviceAccount:tier4-sa@${project-id}.iam.gserviceaccount.com
+---
+# K8S SA
+apiVersion: iam.cnrm.cloud.google.com/v1beta1
+kind: IAMPartialPolicy
+metadata: # kpt-merge: client-name-config-control/project-id-tier4-sa-workload-identity-binding
+  name: client-project-yjs10-tier4-sa-workload-identity-binding # kpt-set: ${project-id}-tier4-sa-workload-identity-binding
+  namespace: yoppworks-config-control # kpt-set: ${client-name}-${management-namespace}
+  annotations:
+    cnrm.cloud.google.com/ignore-clusterless: "true"
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    internal.kpt.dev/upstream-identifier: 'iam.cnrm.cloud.google.com|IAMPartialPolicy|client-name-config-control|project-id-tier4-sa-workload-identity-binding'
+    cnrm.cloud.google.com/blueprint: 'kpt-pkg-fn'
+spec:
+  resourceRef:
+    name: client-project-yjs10-tier4-sa # kpt-set: ${project-id}-tier4-sa
+    apiVersion: iam.cnrm.cloud.google.com/v1beta1
+    kind: IAMServiceAccount
+    namespace: yoppworks-config-control # kpt-set: ${client-name}-${management-namespace}
+  # AC-3(7), AC-3, AC-16(2)
+  bindings:
+    - role: roles/iam.workloadIdentityUser
+      members:
+        - member: serviceAccount:single-kcc-yjs10.svc.id.goog[cnrm-system/cnrm-controller-manager-client-project-yjs10-tier4] # kpt-set: serviceAccount:${management-project-id}.svc.id.goog[cnrm-system/cnrm-controller-manager-${project-id}-tier4]
+---
+# K8S namespace
+apiVersion: v1
+kind: Namespace
+metadata: # kpt-merge: /project-id-tier4
+  name: client-project-yjs10-tier4 # kpt-set: ${project-id}-tier4
+  annotations:
+    cnrm.cloud.google.com/project-id: client-project-yjs10 # kpt-set: ${project-id}
+    cnrm.cloud.google.com/ignore-clusterless: "true"
+    internal.kpt.dev/upstream-identifier: '|Namespace|default|project-id-tier4'
+---
+# Link GCP SA to K8S namespace
+apiVersion: core.cnrm.cloud.google.com/v1beta1
+kind: ConfigConnectorContext
+metadata: # kpt-merge: project-id-tier4/configconnectorcontext.core.cnrm.cloud.google.com
+  name: configconnectorcontext.core.cnrm.cloud.google.com
+  namespace: client-project-yjs10-tier4 # kpt-set: ${project-id}-tier4
+  annotations:
+    cnrm.cloud.google.com/ignore-clusterless: "true"
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    internal.kpt.dev/upstream-identifier: 'core.cnrm.cloud.google.com|ConfigConnectorContext|project-id-tier4|configconnectorcontext.core.cnrm.cloud.google.com'
+    cnrm.cloud.google.com/blueprint: 'kpt-pkg-fn'
+spec:
+  # AC-3(7), AC-3, AC-16(2)
+  googleServiceAccount: tier4-sa@client-project-yjs10.iam.gserviceaccount.com # kpt-set: tier4-sa@${project-id}.iam.gserviceaccount.com
+---
+# Give KCC, for this namespace, permission to read KCC resources in the client-name-networking namespace.
+# This allows GKE and GCE instances to reference the shared network in the client-name-networking namespace.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: # kpt-merge: client-name-networking/cnrm-viewer-project-id-tier4
+  name: cnrm-viewer-client-project-yjs10-tier4 # kpt-set: cnrm-viewer-${project-id}-tier4
+  namespace: yoppworks-networking # kpt-set: ${client-name}-networking
+  annotations:
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    internal.kpt.dev/upstream-identifier: 'rbac.authorization.k8s.io|RoleBinding|client-name-networking|cnrm-viewer-project-id-tier4'
+# AC-3(7), AC-3, AC-16(2)
+roleRef:
+  name: cnrm-viewer
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - name: cnrm-controller-manager-client-project-yjs10-tier4 # kpt-set: cnrm-controller-manager-${project-id}-tier4
+    namespace: cnrm-system
+    kind: ServiceAccount
+---
+# Give KCC, for this namespace, permission to read KCC resources in the tier3 namespace.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata: # kpt-merge: project-id-tier3/cnrm-viewer-project-id-tier4
+  name: cnrm-viewer-client-project-yjs10-tier4 # kpt-set: cnrm-viewer-${project-id}-tier4
+  namespace: client-project-yjs10-tier3 # kpt-set: ${project-id}-tier3
+  annotations:
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    internal.kpt.dev/upstream-identifier: 'rbac.authorization.k8s.io|RoleBinding|project-id-tier3|cnrm-viewer-project-id-tier4'
+# AC-3(7), AC-3, AC-16(2)
+roleRef:
+  name: cnrm-viewer
+  kind: ClusterRole
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+  - name: cnrm-controller-manager-client-project-yjs10-tier4 # kpt-set: cnrm-controller-manager-${project-id}-tier4
+    namespace: cnrm-system
+    kind: ServiceAccount
+---
+# Repo sync role binding requirement
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata: # kpt-merge: project-id-tier4/syncs-repo
+  name: syncs-repo
+  namespace: client-project-yjs10-tier4 # kpt-set: ${project-id}-tier4
+  annotations:
+    internal.kpt.dev/upstream-identifier: 'rbac.authorization.k8s.io|RoleBinding|project-id-tier4|syncs-repo'
+subjects:
+  - kind: ServiceAccount
+    name: ns-reconciler-client-project-yjs10-tier4 # kpt-set: ns-reconciler-${project-id}-tier4
+    namespace: config-management-system
+# AC-3(7), AC-3, AC-16(2)
+roleRef:
+  kind: ClusterRole
+  name: admin
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,115 @@
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#########
+# IAM API
+apiVersion: serviceusage.cnrm.cloud.google.com/v1beta1
+kind: Service
+metadata: # kpt-merge: client-name-projects/project-id-iam
+  name: client-project-yjs10-iam # kpt-set: ${project-id}-iam
+  namespace: yoppworks-projects # kpt-set: ${client-name}-projects
+  annotations:
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    cnrm.cloud.google.com/deletion-policy: "abandon"
+    cnrm.cloud.google.com/disable-dependent-services: "false"
+    internal.kpt.dev/upstream-identifier: 'serviceusage.cnrm.cloud.google.com|Service|client-name-projects|project-id-iam'
+    cnrm.cloud.google.com/blueprint: 'kpt-pkg-fn'
+spec:
+  resourceID: iam.googleapis.com
+  projectRef:
+    external: client-project-yjs10 # kpt-set: ${project-id}
+---
+# Resource Manager API
+apiVersion: serviceusage.cnrm.cloud.google.com/v1beta1
+kind: Service
+metadata: # kpt-merge: client-name-projects/project-id-resourcemanager
+  name: client-project-yjs10-resourcemanager # kpt-set: ${project-id}-resourcemanager
+  namespace: yoppworks-projects # kpt-set: ${client-name}-projects
+  annotations:
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    cnrm.cloud.google.com/deletion-policy: "abandon"
+    cnrm.cloud.google.com/disable-dependent-services: "false"
+    internal.kpt.dev/upstream-identifier: 'serviceusage.cnrm.cloud.google.com|Service|client-name-projects|project-id-resourcemanager'
+    cnrm.cloud.google.com/blueprint: 'kpt-pkg-fn'
+spec:
+  resourceID: cloudresourcemanager.googleapis.com
+  projectRef:
+    external: client-project-yjs10 # kpt-set: ${project-id}
+---
+# Billing API
+apiVersion: serviceusage.cnrm.cloud.google.com/v1beta1
+kind: Service
+metadata: # kpt-merge: client-name-projects/project-id-billing
+  name: client-project-yjs10-billing # kpt-set: ${project-id}-billing
+  namespace: yoppworks-projects # kpt-set: ${client-name}-projects
+  annotations:
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    cnrm.cloud.google.com/deletion-policy: "abandon"
+    cnrm.cloud.google.com/disable-dependent-services: "false"
+    internal.kpt.dev/upstream-identifier: 'serviceusage.cnrm.cloud.google.com|Service|client-name-projects|project-id-billing'
+    cnrm.cloud.google.com/blueprint: 'kpt-pkg-fn'
+spec:
+  resourceID: cloudbilling.googleapis.com
+  projectRef:
+    external: client-project-yjs10 # kpt-set: ${project-id}
+---
+# Service Usage API
+apiVersion: serviceusage.cnrm.cloud.google.com/v1beta1
+kind: Service
+metadata: # kpt-merge: client-name-projects/project-id-serviceusage
+  name: client-project-yjs10-serviceusage # kpt-set: ${project-id}-serviceusage
+  namespace: yoppworks-projects # kpt-set: ${client-name}-projects
+  annotations:
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    cnrm.cloud.google.com/deletion-policy: "abandon"
+    cnrm.cloud.google.com/disable-dependent-services: "false"
+    internal.kpt.dev/upstream-identifier: 'serviceusage.cnrm.cloud.google.com|Service|client-name-projects|project-id-serviceusage'
+    cnrm.cloud.google.com/blueprint: 'kpt-pkg-fn'
+spec:
+  resourceID: serviceusage.googleapis.com
+  projectRef:
+    external: client-project-yjs10 # kpt-set: ${project-id}
+---
+# Logging API
+apiVersion: serviceusage.cnrm.cloud.google.com/v1beta1
+kind: Service
+metadata: # kpt-merge: client-name-projects/project-id-logging
+  name: client-project-yjs10-logging # kpt-set: ${project-id}-logging
+  namespace: yoppworks-projects # kpt-set: ${client-name}-projects
+  annotations:
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    cnrm.cloud.google.com/deletion-policy: "abandon"
+    cnrm.cloud.google.com/disable-dependent-services: "false"
+    internal.kpt.dev/upstream-identifier: 'serviceusage.cnrm.cloud.google.com|Service|client-name-projects|project-id-logging'
+    cnrm.cloud.google.com/blueprint: 'kpt-pkg-fn'
+spec:
+  resourceID: logging.googleapis.com
+  projectRef:
+    external: client-project-yjs10 # kpt-set: ${project-id}
+---
+# Monitoring API
+apiVersion: serviceusage.cnrm.cloud.google.com/v1beta1
+kind: Service
+metadata: # kpt-merge: client-name-projects/project-id-monitoring
+  name: client-project-yjs10-monitoring # kpt-set: ${project-id}-monitoring
+  namespace: yoppworks-projects # kpt-set: ${client-name}-projects
+  annotations:
+    config.kubernetes.io/depends-on: resourcemanager.cnrm.cloud.google.com/namespaces/yoppworks-projects/Project/client-project-yjs10 # kpt-set: resourcemanager.cnrm.cloud.google.com/namespaces/${client-name}-projects/Project/${project-id}
+    cnrm.cloud.google.com/deletion-policy: "abandon"
+    cnrm.cloud.google.com/disable-dependent-services: "false"
+    internal.kpt.dev/upstream-identifier: 'serviceusage.cnrm.cloud.google.com|Service|client-name-projects|project-id-monitoring'
+    cnrm.cloud.google.com/blueprint: 'kpt-pkg-fn'
+spec:
+  resourceID: monitoring.googleapis.com
+  projectRef:
+    external: client-project-yjs10 # kpt-set: ${project-id}

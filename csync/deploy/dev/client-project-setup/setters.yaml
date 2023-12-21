@@ -1,0 +1,128 @@
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#########
+apiVersion: v1
+kind: ConfigMap
+metadata: # kpt-merge: /setters
+  name: setters
+  annotations:
+    config.kubernetes.io/local-config: "true"
+    internal.kpt.dev/upstream-identifier: '|ConfigMap|default|setters'
+data:
+  ##########################
+  # Instructions
+  ##########################
+  #
+  # Follow instructions specific to each section.
+  # Project IDs must follow the rules below, additionally,
+  # if a gatekeeper policy is used to enforce specific naming conventions, refer to its documentation.
+  #   - All IDs should be universally unique.
+  #   - Must be 6 to 30 characters in length.
+  #   - Can only contain lowercase letters, numbers, and hyphens.
+  #   - Must start with a letter.
+  #   - Cannot end with a hyphen.
+  #   - Cannot be in use or previously used; this includes deleted projects.
+  #   - Cannot contain restricted strings, such as google and ssl.
+  #
+  ##########################
+  # General Settings Values
+  ##########################
+  #
+  # Use the same Google Cloud Organization ID that was used when deploying the core-landing-zone package
+  # customization: required
+  org-id: "54422563716"
+  #
+  ##########################
+  # Management Project
+  ##########################
+  #
+  # The management project is where the Landing Zone config controller instance is running.
+  # management-project-id is the same value as defined in the core-landing-zone package
+  # customization: required
+  management-project-id: single-kcc-yjs10
+  #
+  # kubernetes namespace set to the default, config-control.
+  # customization: Do not change this value.
+  management-namespace: config-control
+  #
+  ##########################
+  # Client
+  ##########################
+  #
+  # Name for the client, lowercase only
+  # customization: required
+  client-name: 'yoppworks'
+  #
+  # project id for the client management project that was created in the client-setup package
+  # customization: required
+  client-management-project-id: yp-client-mgmt-project-yjs10
+  #
+  ##########################
+  # Network Host Project (standard)
+  ##########################
+  #
+  # the network host project id that is created by the client-landing-zone package
+  # customization: required
+  host-project-id: net-host-project-yjs10
+  #
+  # the nane1 and nane2 subnets to grant network user permissions, replace 'classification' with appropriate values
+  # the values must match the kubernetes resources 'metadata.name'
+  # subnets were created by the client-landing-zone package
+  # customization: required
+  allowed-nane1-main-subnet: net-host-project-yjs10-nane1-standard-nonp-main-snet
+  allowed-nane2-main-subnet: net-host-project-yjs10-nane2-standard-nonp-main-snet
+  #
+  ##########################
+  # Project
+  ##########################
+  #
+  # project id for the client project to be created, following rules and conventions
+  # customization: required
+  project-id: client-project-yjs10
+  #
+  # Clients Billing Account ID to associate with this service project. The client-name-projects-sa will need billing user role permission granted.
+  # customization: required
+  project-billing-id: "01BDB6-B76EC0-AD2596"
+  #
+  # GCP folder to use as parent to this project
+  # the values must match the kubernetes resources 'metadata.name', for example "standard.applications.nonp"
+  # customization: required
+  project-parent-folder: standard.applications.nonp
+  #
+  ##########################
+  # Config Sync
+  ##########################
+  #
+  # Used for the client root sync external git repo (GitHub, Azure DevOps, etc.)
+  # The repo stores client resources configs that will be created in the service project
+  # To disable this option, delete the 'root-sync-git/' directory
+  #
+  # the git repo URL, for example
+  # https://github.com/GITHUB-ORG/REPO-NAME
+  # https://AZDO-ORG@dev.azure.com/AZDO-ORG/AZDO-PROJECT/_git/REPO-NAME
+  # customization: required
+  repo-url: https://github.com/jacyang2010/single-kcc-clz-yjs10-yoppworks.git
+  #
+  # the branch to check out (usually main)
+  # customization: optional
+  repo-branch: main
+  #
+  # the directory to observe for YAML manifests
+  # customization: optional
+  tier3-repo-dir: csync/tier3/configcontroller/deploy/env
+  tier4-repo-dir: csync/tier4/configcontroller/deploy/env
+  #
+  ##########################
+  # End of Configurations
+  ##########################
