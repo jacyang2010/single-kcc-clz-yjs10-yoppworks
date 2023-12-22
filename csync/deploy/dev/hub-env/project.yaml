@@ -1,0 +1,31 @@
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#########
+# Project
+apiVersion: resourcemanager.cnrm.cloud.google.com/v1beta1
+kind: Project
+metadata: # kpt-merge: projects/hub-project-id
+  name: kcclcz-nonprod-hub-yoppworks # kpt-set: ${hub-project-id}
+  namespace: projects
+  annotations:
+    cnrm.cloud.google.com/auto-create-network: "false"
+    internal.kpt.dev/upstream-identifier: 'resourcemanager.cnrm.cloud.google.com|Project|projects|hub-project-id'
+    cnrm.cloud.google.com/blueprint: 'kpt-pkg-fn'
+spec:
+  name: kcclcz-nonprod-hub-yoppworks # kpt-set: ${hub-project-id}
+  billingAccountRef:
+    external: "01BDB6-B76EC0-AD2596" # kpt-set: ${project-billing-id}
+  folderRef:
+    name: single-kcc-clz-root-yjs10 # kpt-set: ${project-parent-folder}
+    namespace: hierarchy
