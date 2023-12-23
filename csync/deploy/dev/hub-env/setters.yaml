@@ -11,7 +11,7 @@ data:
   # Billing Account ID to be associated with this project
   project-billing-id: "01BDB6-B76EC0-AD2596"
   # GCP folder to use as parent to this project, lowercase K8S resource name
-  project-parent-folder: single-kcc-clz-root-yjs10
+  project-parent-folder: clients.yoppworks
   # Naming Convention for project-id : <tenant-code><environment-code>m<data-classification>-<project-owner>-<user defined string>
   # Max 30 characters
   hub-project-id: kcclcz-nonprod-hub-yoppworks

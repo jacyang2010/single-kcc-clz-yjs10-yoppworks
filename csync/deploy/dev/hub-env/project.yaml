@@ -27,5 +27,5 @@ spec:
   billingAccountRef:
     external: "01BDB6-B76EC0-AD2596" # kpt-set: ${project-billing-id}
   folderRef:
-    name: single-kcc-clz-root-yjs10 # kpt-set: ${project-parent-folder}
+    name: clients.yoppworks # kpt-set: ${project-parent-folder}
     namespace: hierarchy
